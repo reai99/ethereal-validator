@@ -32,10 +32,14 @@ export const parseValidator = (type: string, ruleMap: any) => {
 export const validateErrorTip = (errors: any[]) => {
   errors.forEach(error => {
     const { target } = error;
-    const { key, type, value } = target;
+    const { key, type, value, params } = target;
     const matchMsg = (newMessages[type] && newMessages[type][key]) || newMessages[key] || newMessages.default;
-    const errorMsg = matchMsg.replace('%s', value);
-    console.log('[validate-error]:',errorMsg)
+    const matchRepalaceArr = [value, params];
+    let errorMsg = matchMsg;
+    while(/\%s/.test(errorMsg)) {
+      errorMsg.replace('%s', matchRepalaceArr.shift());
+    }
+    console.error('[validate-error]:',errorMsg)
 
   })
 }

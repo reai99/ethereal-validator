@@ -26,8 +26,7 @@ const pattern = (reg: any, value: any) => {
 
 // 必填
 const required = (must: boolean, value: any) => {
-  if(isEmpty(value)) return false;
-  return !must;
+  return must ? !isEmpty(value) : true;
 }
 
 // 长度

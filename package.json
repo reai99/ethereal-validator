@@ -1,6 +1,6 @@
 {
   "name": "ethereal-validator",
-  "version": "v1.0.4",
+  "version": "v1.1.0",
   "main": "index.js",
   "license": "MIT",
   "@pika/pack": {

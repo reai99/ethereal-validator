@@ -3,7 +3,10 @@ import ruleMap from './rule';
 
 const SUPORT_RULE_TYPE = ['string', 'array', 'number', 'boolean'];
 
-const ruleTypeValidator = SUPORT_RULE_TYPE.reduce((r, type) => parseValidator(type, ruleMap), {})
+const ruleTypeValidator = SUPORT_RULE_TYPE.reduce((r, type) => {
+  r[type] = parseValidator(type, ruleMap);
+  return r;
+}, {})
 
 class Validator {
   private fieldRuleMap: any = {};
@@ -54,7 +57,7 @@ class Validator {
       const value = this.typeof(transform) === 'function' ? transform(val) : val;
       const validateMap = pick(ruleTypeValidator[type] || {}, Object.keys(args));
       const result = Object.keys(validateMap).reduce((r, fn) => {
-        return !validateMap[fn](args[fn], value, type) ? r.concat({ rule, message, target: { key: fn, type, value } }) : r;
+        return !validateMap[fn](args[fn], value, type) ? r.concat({ rule, message, target: { key: fn, type, value, params: args[fn] } }) : r;
       }, []);
 
       if (this.typeof(validator) === 'function') {
@@ -109,6 +112,7 @@ class Validator {
 const Scheme = new Validator()
 
 export default {
+  ruleTypeValidator,
   Validator,
   validateValue: Scheme.validateValueOfRuleList
 };
