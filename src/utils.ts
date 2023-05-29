@@ -37,7 +37,7 @@ export const validateErrorTip = (errors: any[]) => {
     const matchRepalaceArr = [value, params];
     let errorMsg = matchMsg;
     while(/\%s/.test(errorMsg)) {
-      errorMsg.replace('%s', matchRepalaceArr.shift());
+      errorMsg = errorMsg.replace('%s', matchRepalaceArr.shift());
     }
     console.error('[validate-error]:',errorMsg)
 
